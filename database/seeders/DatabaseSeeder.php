@@ -10,11 +10,33 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
+    private function admin_user($name, $email, $isAdmin: false) {
+        $user = User::firstOrCreate(
+            ['email' => $email],
+            [
+                'name' => $name,
+                'password' => Hash::make('password'), // Set a secure password
+            ]
+        );
+
+        $adminRole = Role::firstOrCreate(['name' => 'Admin']);
+        $normalRole = Role::firstOrCreate(['name' => 'User']);
+        $user->assignRole($isAdmin ? $adminRole : $normalRole);
+    }
+
     public function run()
     {
         // Create or get the Admin role
         $adminRole = Role::firstOrCreate(['name' => 'Admin']);
 
+        // create non-admin user
+        $user = User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Normal User',
+                'password' => Hash::make('password'), // Set a secure password
+            ]
+        );
         // Create the admin user if not exists
         $admin = User::firstOrCreate(
             ['email' => 'admin@example.com'],
