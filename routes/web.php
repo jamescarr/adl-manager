@@ -17,3 +17,11 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::resources([
+        'patients' => PatientController::class,
+        'adl-types' => AdlTypeController::class,
+        'adl-records' => AdlRecordController::class,
+    ]);
+});
