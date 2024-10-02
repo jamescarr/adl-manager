@@ -13,7 +13,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
     'role:Admin'])->prefix('admin')->group(function () {
-        Route::resource('admin/users', UserResource::class);
+        Route::resource('/admin/users', UserResource::class);
     });
 
 Route::middleware([
